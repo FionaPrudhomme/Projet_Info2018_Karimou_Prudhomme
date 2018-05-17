@@ -1,0 +1,23 @@
+BASE DE DONNEE : 
+-ouvrir PgAdmin
+-créer une nouvelle base de donnée "gestionhotel"
+-clique droit sur la base de donnée
+-Restaurer 
+-écrire le chemin menant au fichier "BDD" (si vous allez le  chercher à partir du bouton ... ça ne va pas marcher)
+
+SI PROBLEME CONNEXION BDD :
+ouvir dans la librairie du projet le fichier "postgresql-42.2.2.jre7.jar" si JAV7 ou "postgresql-42.2.2.jar" si JAVA8 
+
+DEMARRER APPLICATION :
+-ouvrir package "demarrage_programme"
+-lancer la classe "Authentification"
+
+IDENTIFIANTS : 1 ou 2
+MOTS DE PASSES : KS12 ou PF23
+
+NOMBRE DE CHAMBRES : 20 (numérotés de 1 à 20)
+NOMBRE DE SALLES : 5 (numérotés de 1 à 5)
+NOMBRE DE CLIENTS : 5 (id de 1 à 5)
+NOMBRE D'ENTREPRISES : 4 (id de 1 à 4)
+NOMBRE RESERVATIONS CHAMBRE : 4
+NOMBRES RESERVATIONS SALLE : 3

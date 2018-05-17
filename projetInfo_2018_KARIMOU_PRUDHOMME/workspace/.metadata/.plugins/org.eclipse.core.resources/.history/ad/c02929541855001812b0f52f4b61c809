@@ -1,0 +1,65 @@
+package interface_Graphique;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+ 
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+import ConnexionBDD.Connexion;
+
+public class Authentification {
+	
+	static JTextField identifiant, password;
+    PreparedStatement statement = null;
+    ResultSet resultat = null;
+	
+	//PanneauAuth Pann = new PanneauAuth();
+	public Authentification() {
+		
+	}
+	
+	public void seConnecter() {
+		String id = identifiant.getText();
+        String mdp = password.getText();
+        
+        int id2 = Integer.parseInt(id);
+		Connection conn = Connexion.getInstance();
+		
+		try {
+			PreparedStatement preparedState = conn.prepareStatement("SELECT mdp FROM personnel WHERE id LIKE " + id2 );
+			resultat = preparedState.executeQuery();
+			
+			if(resultat.next())
+			{
+				String motDePasse = resultat.getString(1);
+				if(motDePasse.equals(mdp))
+				{
+					JOptionPane.showMessageDialog(null,"Connexion réussie ! ","Success",JOptionPane.PLAIN_MESSAGE);
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"Mot de passe incorrect ! ","Error",1);
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"Login incorrect ! ","Error",1);
+			}
+ 
+			
+			resultat = statement.executeQuery();
+ 
+			conn.close();
+
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}

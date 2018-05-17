@@ -1,0 +1,271 @@
+package interface_Graphique;
+
+import java.awt.GridBagConstraints;
+
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+import ConnexionBDD.Connexion;
+
+import options.Options;
+
+public class FacturerChambre extends JFrame implements ActionListener{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JLabel labelNumResa = new JLabel("numéro de réservation : ");
+	private JTextField textNumResa = new JTextField(20);
+	private JButton button1 = new JButton("calculer et afficher la facture");
+	private JButton button2 = new JButton("Menu");
+	private JPanel panFacture = new JPanel(new GridBagLayout());
+	
+	PreparedStatement statement = null;
+    ResultSet resultat = null;
+ 
+    protected int numChambre;
+    protected double prixChambre;
+    protected int nb_nuits;
+    protected int nbPDF;
+    protected int idClient;
+    protected double prixTot;
+    protected int reduc = 0;
+    protected int nb_fPDF;
+    protected double prixOpt = 0;
+    protected String options;
+    
+    public FacturerChambre(){
+    	
+    	this.init();
+    }
+    	
+    public void init(){
+        	
+    	GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(10, 10, 10, 10);
+        
+        constraints.gridx = 0;
+        constraints.gridy = 0;     
+        panFacture.add(this.labelNumResa, constraints);
+ 
+        constraints.gridx = 1;
+        panFacture.add(this.textNumResa, constraints);
+    	
+        this.button1.addActionListener(this);
+        constraints.gridx = 1;
+        constraints.gridy = 8;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.EAST;
+        panFacture.add(this.button1, constraints);
+    	
+        this.button2.addActionListener(this);
+        constraints.gridx = 0;
+        constraints.gridy = 8;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.WEST;
+        panFacture.add(this.button2, constraints);
+        
+        add(this.panFacture);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
+    	
+    	
+    }
+    
+   
+    	
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    	if(e.getSource() == this.button1) {
+    			
+    		try {
+    			String numResa1 = this.textNumResa.getText();
+    			int numResa = Integer.parseInt(numResa1);
+    				
+    				
+    				
+    			PreparedStatement preparedState = Connexion.getInstance().prepareStatement("SELECT num_resa FROM resa_chambre WHERE num_resa ='"+numResa+"'");
+    			resultat = preparedState.executeQuery();
+    				
+    				
+    			if(resultat.next()) {
+    				PreparedStatement preparedStat = Connexion.getInstance().prepareStatement("SELECT num_resa FROM facture WHERE num_resa ='"+numResa+"'");
+        			ResultSet resultat2 = preparedStat.executeQuery();
+    					
+        			if(resultat2.next()) {
+        				JOptionPane.showMessageDialog(null,"facture déjà créée, affichage ","Success",JOptionPane.PLAIN_MESSAGE);
+        				dispose();
+        					
+        				PreparedStatement preparedState1 = Connexion.getInstance().prepareStatement("SELECT montant FROM facture WHERE num_resa ='"+numResa+"'");
+        				ResultSet res = preparedState1.executeQuery();
+        				while(res.next()) {
+        					this.prixTot = res.getInt(1);
+        				}	
+        				PreparedStatement preparedState4 = Connexion.getInstance().prepareStatement("SELECT id_client FROM facture WHERE num_resa ='"+numResa+"'");
+        				ResultSet res3 = preparedState4.executeQuery();
+        				while(res3.next()) {
+        					this.idClient = res3.getInt(1);
+        				}
+        				PreparedStatement preparedState5 = Connexion.getInstance().prepareStatement("SELECT reduction FROM facture WHERE num_resa ='"+numResa+"'");
+        				ResultSet res2 = preparedState5.executeQuery();
+        				while(res2.next()) {
+        					this.reduc = res2.getInt(1);
+        				}
+        					
+        				FactureChambre fenetre = new FactureChambre(numResa,prixTot,idClient,reduc);
+        				fenetre.setVisible(true);
+        					
+        				}
+    					
+        				else {
+        					PreparedStatement preparedState1 = Connexion.getInstance().prepareStatement("SELECT num_chambre FROM resa_chambre WHERE num_resa ='"+numResa+"'");
+        					ResultSet res = preparedState1.executeQuery();
+        					while(res.next()) {
+        						this.numChambre = res.getInt(1);
+    
+        					}
+        					PreparedStatement preparedState2 = Connexion.getInstance().prepareStatement("SELECT prix FROM chambre WHERE numero ='"+numChambre+"'");
+        					ResultSet res1 = preparedState2.executeQuery();
+        					while(res1.next()) {
+        						this.prixChambre = res1.getInt(1); 
+        					}
+        					
+        					PreparedStatement preparedState3 = Connexion.getInstance().prepareStatement("SELECT nb_nuits FROM resa_chambre WHERE num_resa ='"+numResa+"'");
+        					ResultSet res2 = preparedState3.executeQuery();
+        					while(res2.next()) {
+        						this.nb_nuits = res2.getInt(1);
+        					}
+        				
+        					PreparedStatement preparedState4 = Connexion.getInstance().prepareStatement("SELECT id_client FROM resa_chambre WHERE num_resa ='"+numResa+"'");
+        					ResultSet res3 = preparedState4.executeQuery();
+        					while(res3.next()) {
+        						this.idClient = res3.getInt(1);
+        					}
+        				
+        					PreparedStatement preparedState6 = Connexion.getInstance().prepareStatement("SELECT point_de_fidelite FROM client WHERE id='"+idClient+"'");
+        					ResultSet res4 = preparedState6.executeQuery();
+        					while(res3.next()) {
+        						this.nbPDF = res4.getInt(1);
+        					}
+        					PreparedStatement preparedState12 = Connexion.getInstance().prepareStatement("SELECT options FROM resa_chambre WHERE num_resa ='"+numResa+"'");
+        					ResultSet resultat1 = preparedState12.executeQuery();
+        					while(resultat1.next()){
+        						this.options = resultat1.getString(1);
+        					}
+        					
+        					
+    
+        					//List<String> opt;
+        					List<String> opt = Arrays.asList(options.split(" "));
+        
+        					
+        					//List<String> opt = Arrays.asList(opt1); 
+        					
+        					for(int i = 0; i<opt.size();i++){
+        						if(opt.get(i).contains("diner") ){
+        							
+        							prixOpt =  prixOpt + 32;
+        							System.out.println(prixOpt);
+        						}
+        						if(opt.get(i).contains("spa")){
+        							prixOpt =prixOpt+ 15;
+        							System.out.println(prixOpt);
+        						}
+        						if(opt.get(i).contains("petit_dej_chambre") ){
+        							prixOpt =prixOpt+ 35;
+        						}
+        						if(opt.get(i).contains("petit_dej_hotel") ){
+        							prixOpt =prixOpt+ 15;
+        						}
+        					}
+        					System.out.println(prixOpt);		
+        					
+        					
+        					this.prixTot = (prixOpt + prixChambre) * nb_nuits;
+        					if(nbPDF > 10) {
+        						double f = nbPDF/10;
+        						this.reduc = (int) Math.floor(f);
+        						this.nb_fPDF = nbPDF%10;
+        					}
+        				
+        					PreparedStatement preparedSta = Connexion.getInstance().prepareStatement("INSERT INTO facture(num_resa,montant,id_client,reduction) VALUES (?,?,?,?)");
+        					preparedSta.setInt(1, numResa); 
+        					preparedSta.setDouble(2, prixTot); 
+        					preparedSta.setInt(3, idClient); 
+        					preparedSta.setInt(4, reduc);
+        					
+        					PreparedStatement preparedSt = Connexion.getInstance().prepareStatement("update client set  point_de_fidelite='"+nb_fPDF+"'where id ='"+idClient+"'"); 
+        					preparedSt.executeUpdate();
+    	
+        					preparedSta.executeUpdate();
+        					JOptionPane.showMessageDialog(null,"facture créée ","Success",JOptionPane.PLAIN_MESSAGE);
+        					dispose();
+        					FactureChambre fenetre = new FactureChambre(numResa,prixTot,idClient,reduc);
+        					fenetre.setVisible(true);
+        				}
+        				
+        				
+    				}
+    				
+    				else {
+    					JOptionPane.showMessageDialog(null,"Mauvais numéro de réservation ","Error",1);
+    				}
+    				
+    			}
+    			catch (Exception e3) {
+    				e3.printStackTrace();
+    			}
+    			
+    		}
+    		
+    		if(e.getSource() == button2) {
+    			dispose();
+    			PanneauPrincipal pann = new PanneauPrincipal();
+    			pann.setVisible(true);
+    			
+    		}
+    		
+    		
+    }
+    	
+    public static void main(String[] args) {
+            
+           try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+             
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new FacturerChambre().setVisible(true);
+                }
+            });
+    	
+    	}
+    		
+
+
+}

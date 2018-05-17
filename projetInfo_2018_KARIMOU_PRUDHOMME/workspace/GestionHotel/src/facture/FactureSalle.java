@@ -1,0 +1,107 @@
+package facture;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import panneau_principal.PanneauPrincipal;
+/**
+* Classe affichant la facture d'une réservatio de salle demandée
+*
+* @version 1.0
+* @see FacturerSalle
+* @author Prud'homme Fiona, Karimou Samira
+*/
+
+
+
+public class FactureSalle extends JFrame implements ActionListener{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected int numResa; 
+	protected double prixTot;
+	protected int idEntreprise;
+	private JButton button = new JButton("Menu");
+	private JPanel panAfficheFacture = new JPanel(new GridBagLayout());//nouvelle fenetre
+	
+	
+	public FactureSalle(int numResa,double prixTot, int idEntreprise) {
+		//initialistaion
+		this.numResa = numResa;
+		this.prixTot = prixTot;
+		this.idEntreprise = idEntreprise;
+		this.init();
+		
+	}
+	
+	public void init() {
+		//affichage
+		JLabel labelNumResa = new JLabel(Integer.toString(numResa));
+		JLabel labelPrix = new JLabel(Double.toString(prixTot));
+		JLabel labelId = new JLabel(Integer.toString(idEntreprise));
+
+		
+		JLabel labelResa = new JLabel("numéro de réservation : ");
+		JLabel labelP = new JLabel("Prix total : ");
+		JLabel labelI = new JLabel("identifiant entreprise : ");
+
+		
+		GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(10, 10, 10, 10);
+        
+        constraints.gridx = 0;
+        constraints.gridy = 0;     
+        panAfficheFacture.add(labelResa, constraints);
+ 
+        constraints.gridx = 1;
+        panAfficheFacture.add(labelNumResa, constraints);
+		
+        constraints.gridx = 0;
+        constraints.gridy = 1;     
+        panAfficheFacture.add(labelP, constraints);
+ 
+        constraints.gridx = 1;
+        panAfficheFacture.add(labelPrix, constraints);
+        
+        constraints.gridx = 0;
+        constraints.gridy = 2;     
+        panAfficheFacture.add(labelI, constraints);
+ 
+        constraints.gridx = 1;
+        panAfficheFacture.add(labelId, constraints);
+      
+        
+        this.button.addActionListener(this);
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.WEST;
+        panAfficheFacture.add(this.button, constraints);
+        
+        add(this.panAfficheFacture);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		dispose();
+		PanneauPrincipal pann = new PanneauPrincipal();
+		pann.setVisible(true);//menu
+	}
+	
+	
+
+
+}

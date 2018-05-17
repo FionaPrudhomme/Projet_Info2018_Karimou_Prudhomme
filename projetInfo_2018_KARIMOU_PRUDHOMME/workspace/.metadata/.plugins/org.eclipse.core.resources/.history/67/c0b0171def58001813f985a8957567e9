@@ -1,0 +1,120 @@
+package fiches;
+
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.JFrame;
+import javax.swing.JTable;
+
+import connexionBDD.Connexion;
+
+public class AfficheFiches extends JFrame{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	protected int id_client;
+
+	private String[] li1;
+	private String[] li2;
+	private String[] li3;
+	private String[] li4;
+	private String[] li5;
+	
+	
+	public AfficheFiches(){
+
+        
+        
+        
+        int a;
+        
+        try {
+        	
+        	
+        	for(int i=1; i<10 ; i++){
+        		PreparedStatement preparedState = Connexion.getInstance().prepareStatement("SELECT id from client where id = '"+i+"'");
+            	ResultSet resultat = preparedState.executeQuery();
+                while(resultat.next()){
+                	a = resultat.getInt(1);
+                	li1[i] = String.valueOf(a);
+                }  
+        		
+        	}
+        	for(int i=1; i<10 ; i++){
+        		PreparedStatement preparedState1 = Connexion.getInstance().prepareStatement("SELECT nom from client where id = '"+i+"'");
+            	ResultSet resultat = preparedState1.executeQuery();
+                while(resultat.next()){
+                	a = resultat.getInt(1);
+                	li2[i] = String.valueOf(a);
+                }  
+        		
+        	}
+        	for(int i=1; i<10 ; i++){
+        		PreparedStatement preparedState2 = Connexion.getInstance().prepareStatement("SELECT prenom from client where id = '"+i+"'");
+            	ResultSet resultat = preparedState2.executeQuery();
+                while(resultat.next()){
+                	a = resultat.getInt(1);
+                	li3[i] = String.valueOf(a);
+                }  
+        		
+        	}
+        	for(int i=1; i<10 ; i++){
+        		PreparedStatement preparedState3 = Connexion.getInstance().prepareStatement("SELECT email from client where id = '"+i+"'");
+            	ResultSet resultat = preparedState3.executeQuery();
+                while(resultat.next()){
+                	a = resultat.getInt(1);
+                	li4[i] = String.valueOf(a);
+                }  
+        		
+        	}
+        	for(int i=1; i<10 ; i++){
+        		PreparedStatement preparedState4 = Connexion.getInstance().prepareStatement("SELECT point_de_fidelite from client where id = '"+i+"'");
+            	ResultSet resultat = preparedState4.executeQuery();
+                while(resultat.next()){
+                	a = resultat.getInt(1);
+                	li5[i] = String.valueOf(a);
+                }  
+        		
+        	}
+        	
+            
+        }
+        catch (Exception e3) {
+				e3.printStackTrace();
+		}
+        
+		
+        
+        
+        
+        Object[][] donnees = {
+                li1,
+                li2,
+                li3,
+                li4,
+                li5,
+                
+        };
+ 
+        String[] entetes = {"Id", "Nom", "Prenom", "email", "points de fidélités"};
+        
+        JTable tableau = new JTable(donnees, entetes);
+        setTitle("JTable basique dans un JPanel");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ 
+        getContentPane().add(tableau.getTableHeader(), BorderLayout.NORTH);
+        getContentPane().add(tableau, BorderLayout.CENTER);
+ 
+        pack();
+	}
+	
+	public static void main(String[] args) {
+        new AfficheFiches().setVisible(true);
+    }
+
+}

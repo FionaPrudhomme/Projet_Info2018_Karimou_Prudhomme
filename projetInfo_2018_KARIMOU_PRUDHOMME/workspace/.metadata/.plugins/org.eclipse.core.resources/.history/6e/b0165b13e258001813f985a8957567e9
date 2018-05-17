@@ -1,0 +1,12 @@
+package options;
+
+public class PetitD_Chambre implements Options {
+	
+
+	@Override
+	public double getPrix() {
+		return 30;
+	}
+
+
+}

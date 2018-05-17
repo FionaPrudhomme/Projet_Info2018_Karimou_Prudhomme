@@ -1,0 +1,150 @@
+package personnes;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import ConnexionBDD.Connexion;
+import options.Options;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import java.sql.SQLException;
+
+
+
+public class Personnel extends Personne{
+	
+protected int id;
+protected String mdp;
+	
+
+	public Personnel(String nom, String prenom, String email, int id,String mdp) {
+		super(nom, prenom, email);
+		this.id=id;
+		this.mdp =mdp;
+	}
+	
+	public void connexion(int id,String mdp){
+		
+	}
+	
+	public double[][] recuperer_planning(){
+		return null;
+	}
+
+	
+	public static void creer_ficheEntreprise(String nom,String email,int id, int num_tel){
+		try{
+			
+			PreparedStatement preparedState = Connexion.getInstance().prepareStatement("INSERT INTO personnel(id,nom, email,num_tel) VALUES (?,?,?,?)");
+			preparedState.setInt(1, id); 
+			preparedState.setString(2, nom); 
+			preparedState.setString(3, email);
+			preparedState.setInt(4, num_tel);
+			System.out.println(preparedState.toString());
+			preparedState.executeUpdate();
+			preparedState.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//Ajouter un client dans la base de donnee
+	public void creer_ficheClient(int id,String nom, String prenom,String email, int point_de_fidelite){
+		try {
+			Connection conn = Connexion.getInstance();
+			
+			PreparedStatement preparedState = conn.prepareStatement("INSERT INTO client(id,nom,prenom,email,poin_de_fidelite) VALUES (?,?,?,?,?)");
+			preparedState.setInt(1, id); 
+			preparedState.setString(2, nom); 
+			preparedState.setString(3, prenom); 
+			preparedState.setString(4, email); 
+			preparedState.setInt(5, point_de_fidelite); 
+			
+			System.out.println(preparedState.toString());
+			preparedState.executeUpdate();
+			//state.executeUpdate("INSERT INTO users(Chambre, nbNuit) VALUES(’Pi’, 2)");		
+			preparedState.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public static void reservationChambre(int num_resa,int num_chambre,int id_client, int id_personnel,String date_debut,String date_fin, List<Options> options, int nb_nuit) throws SQLException{
+		StringBuilder csvBuilder = new StringBuilder();
+		
+		for(Options i : options){
+			csvBuilder.append(i);
+			csvBuilder.append(", ");
+		  }
+				
+		  String opt = csvBuilder.toString();
+		
+		
+		try {
+			
+			PreparedStatement preparedState = Connexion.getInstance().prepareStatement("INSERT INTO reservation_chambre(num_reservation,num_chambre,id_client,id_personnel,date_debut,date_fin,options,nb_nuit) VALUES (?,?,?,?,?,?,?,?)");
+			preparedState.setInt(1, num_resa); 
+			preparedState.setInt(2, num_chambre); 
+			preparedState.setInt(3, id_client); 
+			preparedState.setInt(4, id_personnel); 
+			preparedState.setString(5, date_debut); 
+			preparedState.setString(6, date_fin);
+			preparedState.setString(7, opt); 
+			preparedState.setInt(8, nb_nuit); 
+			System.out.println(preparedState.toString());
+			preparedState.executeUpdate();
+			preparedState.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//Ajouter une reservation de salle dans la base de donnee
+	public static void reservationSalle(int num_resa, int num_salle,int id_entreprise, int id_personnel,String date) throws SQLException{
+		try  {
+			PreparedStatement preparedState = Connexion.getInstance().prepareStatement("INSERT INTO reservation_salle(num_resa,num_salle,id_entreprise,id_personnel,date) VALUES (?,?,?,?,?)");
+			preparedState.setInt(1, num_resa); 
+			preparedState.setInt(2, num_salle); 
+			preparedState.setInt(3, id_entreprise);
+			preparedState.setInt(4, id_personnel);
+			preparedState.setString(3, date);
+			System.out.println(preparedState.toString());
+			preparedState.executeUpdate();
+			preparedState.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void facturer( int num_resa, double montant,int id_client, double reduction ){
+		try  {
+			PreparedStatement preparedState = Connexion.getInstance().prepareStatement("INSERT INTO facture(num_resa,montant,id_client,reduction) VALUES (?,?,?,?)");
+			preparedState.setInt(1, num_resa); 
+			preparedState.setDouble(2, montant);
+			preparedState.setInt(3, id_client);
+			preparedState.setDouble(4, reduction);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	public int ajouter_pf(Client id_client){
+		return 1;
+	}
+	
+	
+
+
+}

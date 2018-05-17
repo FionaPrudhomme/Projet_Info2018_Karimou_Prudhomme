@@ -1,0 +1,10 @@
+package options;
+
+public class PetitD_Hotel implements Options {
+	@Override
+	public double getPrix() {
+		return 20;
+	}
+
+
+}

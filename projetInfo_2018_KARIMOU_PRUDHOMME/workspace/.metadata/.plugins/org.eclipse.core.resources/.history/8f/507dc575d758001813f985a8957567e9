@@ -1,0 +1,12 @@
+package hotel;
+
+public class Salle {
+	protected int numero;
+	protected double surface;
+	
+	public Salle(int numero, double surface){
+		this.numero = numero;
+		this.surface = surface;
+	}
+
+}

@@ -1,0 +1,41 @@
+package interface_Graphique;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class PannReservationChambre extends JFrame implements ActionListener {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
+	private JLabel labelResa = new JLabel("Numéro de réservation: ");
+    private JLabel labelClient = new JLabel("Identifiant du client: ");
+    private JLabel labelChambre = new JLabel("Numéro Chambre: ");
+    private JLabel labelPersonnel = new JLabel("Identifiant Personnel: ");
+    private JLabel labelDate1 = new JLabel("Début de la Réservation: ");
+    private JLabel labelDate2 = new JLabel("Fin de la réservation: ");
+    private JLabel labelOptions = new JLabel("Options: ");
+    private JLabel labelNuit = new JLabel("Nombre de nuit: ");
+	
+	private JButton button1 = new JButton("Réserver chambre");
+	private JButton button2 = new JButton("Menu");
+	private JPanel pan = new JPanel();
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+
+}

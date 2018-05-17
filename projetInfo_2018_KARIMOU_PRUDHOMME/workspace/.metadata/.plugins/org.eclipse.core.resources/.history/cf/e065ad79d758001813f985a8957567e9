@@ -1,0 +1,47 @@
+package hotel;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import options.Options;
+
+
+public class ReservationChambre extends Reservation{
+	
+	protected Chambre chambre; 
+	public List<Options> options;
+	protected double prixOptions = 0;
+	protected int nbNuit;
+	
+	public ReservationChambre(int num_reservation, int id_client, Chambre chambre, int nbNuit) {
+		super(num_reservation, date_debut, date_fin);
+		this.chambre = chambre; 
+		this.options =  new ArrayList<Options>();
+		this.nbNuit = nbNuit;
+	}
+	public Chambre getChambre(){
+		return chambre;
+	}
+	
+	public void addOption(Options opt) {
+		options.add(opt);
+		this.prixOptions  += opt.getPrix();
+	}
+	
+	public double getPrixOpt(){
+		return prixOptions;
+	}
+	
+	public int getNbnuit(){
+		return nbNuit;
+	}
+
+	public double getPrixChambre(){
+		return chambre.getPrix();
+	}
+	
+	
+
+
+}

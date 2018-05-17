@@ -1,0 +1,17 @@
+package hotel;
+
+public class ReservationSalle  extends Reservation{
+	
+	protected int num_salle;
+	protected String nom_entreprise; 
+	
+
+	public ReservationSalle(int num_reservation, int num_salle, String nom_entreprise) {
+		super(num_reservation, date_debut, date_fin);
+		this.num_salle= num_salle; 
+		this.nom_entreprise = nom_entreprise; 
+		
+	
+	}
+
+}

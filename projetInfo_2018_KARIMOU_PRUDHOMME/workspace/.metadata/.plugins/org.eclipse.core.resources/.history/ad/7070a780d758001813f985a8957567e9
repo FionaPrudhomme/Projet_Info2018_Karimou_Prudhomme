@@ -1,0 +1,24 @@
+package hotel;
+
+public class Chambre {
+	protected int numero; 
+	protected int etage; 
+	protected int nb_litSimple; 
+	protected int nb_litDouble; 
+	protected double prix;
+
+	
+	public Chambre(int numero, int etage,int nb_litSimple, int nb_litDouble, double prix){
+		this.etage = etage; 
+		this.numero = numero; 
+		this.nb_litDouble = nb_litDouble; 
+		this.nb_litSimple= nb_litSimple;
+		this.prix = prix;
+	}
+	
+	public double getPrix(){
+		return prix;
+	}
+
+
+}

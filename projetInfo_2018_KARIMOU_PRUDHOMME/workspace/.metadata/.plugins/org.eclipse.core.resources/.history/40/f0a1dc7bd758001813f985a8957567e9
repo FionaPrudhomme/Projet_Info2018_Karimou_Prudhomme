@@ -1,0 +1,21 @@
+package hotel;
+
+import java.sql.Date;
+
+public abstract class Reservation {
+	protected int num_reservation;
+	protected static Date date_debut;
+	protected static Date date_fin;
+
+	public Reservation(int num_reservation, Date date_debut, Date date_fin){
+		this.num_reservation=num_reservation;
+		Reservation.date_debut=date_debut;
+		Reservation.date_fin= date_fin;
+	}
+	
+	public void Annuler(int num_reservation, boolean annuler){
+		
+		
+	}
+
+}

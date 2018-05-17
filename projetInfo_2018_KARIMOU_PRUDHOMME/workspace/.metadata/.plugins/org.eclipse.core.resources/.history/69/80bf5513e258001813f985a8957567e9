@@ -1,0 +1,10 @@
+package options;
+
+public class Spa implements Options{
+	
+	@Override
+	public double getPrix() {
+		return 60;
+	}
+
+}

@@ -1,0 +1,18 @@
+package interface_Graphique;
+
+import ConnexionBDD.Connexion;
+import personnes.Personnel;
+
+public class Test {
+	public static void main(String[] args){
+		
+		Connexion conn = new Connexion();
+		
+		
+		
+	}
+	
+	
+	
+
+}

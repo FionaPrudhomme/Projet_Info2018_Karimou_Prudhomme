@@ -1,0 +1,19 @@
+package interface_Graphique;
+
+import javax.swing.JFrame;
+
+public class Facture extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public Facture() {
+		this.init();
+	}
+	
+	public void init() {
+		
+	}
+
+}

@@ -1,0 +1,80 @@
+package interface_Graphique;
+
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+
+public class PanneauPrincipal extends JFrame implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private JButton button1 = new JButton("Réserver chambre");
+	private JButton button2 = new JButton("Réserver salle");
+	private JButton button3 = new JButton("Planning");
+	private JButton button4 = new JButton("Créer une fiche client");
+	private JButton button5 = new JButton("Créer une fiche entrerpise");
+	PreparedStatement statement = null;
+    ResultSet resultat = null;
+	
+	public PanneauPrincipal(){
+		this.init();
+	}
+	
+	public void init(){
+		
+		
+		this.setTitle("Gestion Hotel");
+		this.setSize(1000,1000);
+		this.setLocationRelativeTo(null); 
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		this.setVisible(true); 
+		
+		JPanel pan = new JPanel();
+		pan.setBackground(Color.BLUE); 
+		this.setContentPane(pan);               
+	    this.setVisible(true);
+	    
+	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    this.setLocationRelativeTo(null);
+	    //On définit le layout à utiliser sur le content pane
+	    //Trois lignes sur deux colonnes
+	    this.setLayout(new GridLayout(3, 2));
+	    //On ajoute le bouton au content pane de la JFrame
+	    this.getContentPane().add(button1);
+	    this.getContentPane().add(button2);
+	    this.getContentPane().add(button3);
+	    this.getContentPane().add(button4);
+	    this.getContentPane().add(button5);
+	    this.setVisible(true);
+	    button1.addActionListener(this);
+	    button2.addActionListener(this);
+	    button3.addActionListener(this);
+	    button4.addActionListener(this);
+	    button5.addActionListener(this);
+	    
+	 
+	}
+	
+	public static void main(String args[]){
+		PanneauPrincipal app = new PanneauPrincipal();
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+}

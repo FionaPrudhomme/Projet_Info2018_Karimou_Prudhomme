@@ -1,0 +1,9 @@
+package options;
+
+public class Diner implements Options {
+	@Override
+	public double getPrix() {
+		return 70;
+	}
+
+}

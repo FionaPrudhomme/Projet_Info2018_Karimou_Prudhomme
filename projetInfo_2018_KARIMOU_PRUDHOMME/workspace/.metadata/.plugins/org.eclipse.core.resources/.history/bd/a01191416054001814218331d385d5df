@@ -1,0 +1,16 @@
+package interface_Graphique;
+
+import personnes.Personnel;
+
+public class Test {
+	public static void main(String[] args){
+		
+		Personnel.creer_ficheClient(001,"Lenhof", "Edgar","edgar@hotmail.fr", 0);
+		
+		
+	}
+	
+	
+	
+
+}

@@ -1,0 +1,45 @@
+package calendrier;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.JButton;
+
+public class GetDayCalendarEvent implements MouseListener{
+	
+	private JButton button;
+
+	public GetDayCalendarEvent(JButton labs) {
+		this.button = labs;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		System.out.println(this.button.getText());
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

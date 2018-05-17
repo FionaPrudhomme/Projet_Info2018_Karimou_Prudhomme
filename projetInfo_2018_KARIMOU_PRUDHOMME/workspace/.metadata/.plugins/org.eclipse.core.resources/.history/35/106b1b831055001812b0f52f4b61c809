@@ -1,0 +1,21 @@
+package interface_Graphique;
+
+
+
+import java.sql.Connection;
+
+import ConnexionBDD.Connexion;
+import personnes.Personnel;
+
+public class Test {
+	public static void main(String[] args){
+		
+		Connection conn = Connexion.getInstance();
+		
+
+	}
+	
+	
+	
+
+}

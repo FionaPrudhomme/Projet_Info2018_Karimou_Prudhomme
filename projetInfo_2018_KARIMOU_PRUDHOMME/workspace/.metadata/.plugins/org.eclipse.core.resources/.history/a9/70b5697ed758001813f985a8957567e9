@@ -1,0 +1,27 @@
+package hotel;
+
+import personnes.Client;
+
+public class Facture {
+	protected ReservationChambre nom;
+	protected double montant; 
+	protected Client x;
+	protected int reduc;
+	
+	
+	public void Calcul_reduction(Client x){
+		if (x.getPF() < 10){
+			this.reduc =0;
+		}
+		else{
+			this.reduc =x.getPF()%10 ;
+		}
+	}
+	
+	public double getMontantTot(ReservationChambre nom){
+		montant = nom.getPrixChambre() * this.nom.getNbnuit() + this.nom.getPrixOpt();
+		return montant - this.reduc; 
+	}
+
+
+}

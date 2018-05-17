@@ -1,0 +1,20 @@
+package interface_Graphique;
+
+
+
+public class Test {
+	public static void main(String[] args){
+		
+		//Personnel tim = new Personnel("Ror", "Tim", "email", 011, "mdp");
+		//tim.creer_ficheClient(002, "Nlate", "Claude", "claude-adelaide.nlate@ensg.eu", 5);
+		
+		Authentification auth = new Authentification();
+		auth.actionPerformed();
+		
+
+	}
+	
+	
+	
+
+}

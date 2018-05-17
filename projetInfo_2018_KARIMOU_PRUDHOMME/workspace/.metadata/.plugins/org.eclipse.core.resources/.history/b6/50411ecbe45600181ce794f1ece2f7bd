@@ -1,0 +1,10 @@
+package interface_Graphique;
+
+public class Test {
+	public static void main(String[] args) {
+		Facture fenetre = new Facture(4,22,1,2);
+		fenetre.setVisible(true);
+	}
+	
+
+}

@@ -1,0 +1,60 @@
+package interface_Graphique;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+public class Facture extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	int numResa; 
+	double prixTot;
+	int idClient;
+	int reduc;
+	
+	public Facture(int numResa,double prixTot,int idClient, int reduc) {
+		this.init();
+		this.numResa = numResa;
+		this.prixTot = prixTot;
+		this.idClient = idClient;
+		this.reduc = reduc;
+		
+	}
+	private JLabel labelNumResa = new JLabel(Integer.toString(numResa));
+	private JLabel labelPrix = new JLabel(Double.toString(prixTot));
+	private JLabel labelId = new JLabel(Integer.toString(idClient));
+	private JLabel labelReduc = new JLabel(Integer.toString(reduc));
+	
+	private JLabel labelResa = new JLabel("numéro de réservation : ");
+	private JLabel labelP = new JLabel("Prix total : ");
+	private JLabel labelI = new JLabel("identifiant Client : ");
+	private JLabel labelRed = new JLabel("Réduction : ");
+	
+	public void init() {
+		
+		
+		
+	}
+	
+	public static void main(String[] args) {
+        
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+         
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new PannReservationChambre().setVisible(true);
+            }
+        });
+	
+	}
+
+}

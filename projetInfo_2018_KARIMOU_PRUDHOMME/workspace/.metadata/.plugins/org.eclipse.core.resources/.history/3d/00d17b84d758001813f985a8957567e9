@@ -1,0 +1,12 @@
+package personnes;
+
+public class Entreprise {
+	protected String nom_entreprise;
+	protected String email;
+	
+	public Entreprise(String nom_entreprise, String email){
+		this.nom_entreprise = nom_entreprise;
+		this.email = email;
+	}
+
+}

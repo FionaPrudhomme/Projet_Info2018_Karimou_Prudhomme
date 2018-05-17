@@ -1,0 +1,17 @@
+package personnes;
+
+public class Client extends Personne {
+	protected int id_client;
+	protected int nb_pf;
+	
+	public Client(String nom, String prenom, String email,int id_client, int nb_pf) {
+		super(nom, prenom, email);
+		this.id_client=id_client;
+		this.nb_pf=nb_pf;
+	}
+	
+	public int getPF(){
+		return nb_pf;
+	}
+
+}

@@ -1,0 +1,14 @@
+package personnes;
+
+public abstract class Personne {
+	protected String nom;
+	protected String prenom;
+	protected String email;
+	
+	public Personne(String nom,String prenom, String email){
+		this.prenom = prenom;
+		this.nom=nom;
+		this.email = email;
+	}
+
+}

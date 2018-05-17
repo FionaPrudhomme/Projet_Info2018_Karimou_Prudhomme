@@ -1,0 +1,160 @@
+package interface_Graphique;
+
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.MouseListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+import ConnexionBDD.Connexion;
+
+public class PanneauAuth extends JFrame implements ActionListener{
+	private JLabel labelUsername = new JLabel("Identifiant: ");
+    private JLabel labelPassword = new JLabel("Mot de passe: ");
+    private JTextField textUsername = new JTextField(20);
+    private JTextField fieldPassword = new JTextField(20);
+    //private JPasswordField fieldPassword = new JPasswordField(20);
+    private JButton buttonLogin = new JButton("Entrer");
+    PreparedStatement statement = null;
+    ResultSet resultat = null;
+     
+    public PanneauAuth() {
+                 
+        
+        JPanel newPanel = new JPanel(new GridBagLayout());
+         
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(10, 10, 10, 10);
+         
+        
+        constraints.gridx = 0;
+        constraints.gridy = 0;     
+        newPanel.add(labelUsername, constraints);
+ 
+        constraints.gridx = 1;
+        newPanel.add(textUsername, constraints);
+         
+        constraints.gridx = 0;
+        constraints.gridy = 1;     
+        newPanel.add(labelPassword, constraints);
+         
+        constraints.gridx = 1;
+        newPanel.add(fieldPassword, constraints);
+        
+        buttonLogin.addActionListener(this);
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.CENTER;
+        newPanel.add(buttonLogin, constraints);
+         
+        
+        newPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createEtchedBorder(), "Authentification"));
+         
+        
+        add(newPanel);
+         
+        pack();
+        setLocationRelativeTo(null);
+    }
+     
+    
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		
+		//JTextField identifiant = new JTextField(3); 
+		//JTextField password = new JTextField(10);
+		
+		//pann.add(identifiant, password);
+		
+		String id = textUsername.getText();
+        String mdp = fieldPassword.getText();
+        
+        int id2 = Integer.parseInt(id);
+		Connection conn = Connexion.getInstance();
+		
+		
+		try {
+			PreparedStatement preparedState = conn.prepareStatement("SELECT mdp FROM personnel WHERE id = '"+id2+"'");
+			resultat = preparedState.executeQuery();
+			
+			if(resultat.next())
+			{
+				String motDePasse = resultat.getString(1);
+				if(motDePasse.equals(mdp))
+				{
+					JOptionPane.showMessageDialog(null,"Connexion réussie ! ","Success",JOptionPane.PLAIN_MESSAGE);
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"Mot de passe incorrect ! ","Error",1);
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"Login incorrect ! ","Error",1);
+			}
+ 
+			
+			resultat = statement.executeQuery();
+ 
+			conn.close();
+
+		}
+		catch (Exception e2) {
+			e2.printStackTrace();
+		}
+		
+	}
+	
+    public static void main(String[] args) {
+        
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+         
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new PanneauAuth().setVisible(true);
+            }
+        });
+        
+        
+    }
+
+
+
+}

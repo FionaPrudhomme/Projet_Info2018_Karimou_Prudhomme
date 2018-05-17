@@ -1,0 +1,43 @@
+package interface_Graphique;
+
+import java.awt.Color;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+
+public class MonApplication extends JFrame implements {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public MonApplication(){
+		this.init();
+	}
+	
+	public void init(){
+		
+		
+		this.setTitle("Gestion Hotel");
+		this.setSize(1000,1000);
+		this.setLocationRelativeTo(null); // positionnement centre par rapport a l’ecran
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // comportement lors d’un clic sur la croix rouge
+		this.setVisible(true); // on la rend visible
+		
+		JPanel pan = new JPanel();
+		pan.setBackground(Color.PINK); 
+		this.setContentPane(pan);               
+	    this.setVisible(true);
+	    
+	    //MyPanel mainPanel = new MyPanel();
+		//this.setContentPane(mainPanel);
+	}
+	
+	public static void main(String args[]){
+		MonApplication app = new MonApplication();
+		
+	}
+
+
+}

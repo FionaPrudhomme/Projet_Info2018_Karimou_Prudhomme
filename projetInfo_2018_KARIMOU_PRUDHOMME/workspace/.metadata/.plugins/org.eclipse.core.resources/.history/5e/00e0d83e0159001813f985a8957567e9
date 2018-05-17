@@ -1,0 +1,97 @@
+package calendrier;
+
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.GridBagConstraints;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+import panneau_principal.PanneauPrincipal;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+
+public class AfficheDate extends JFrame implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int yy;
+	private int mm;
+	private int dd;
+	
+	
+	private JLabel labelDate = new JLabel("Date : ");
+	private JLabel labelChambre = new JLabel("Chambre : ");
+	
+	
+	private JButton button1 = new JButton("Retour au calendrier");
+	private JPanel panAfficheDate = new JPanel(new GridBagLayout());
+	PreparedStatement statement = null;
+    ResultSet resultat = null;
+ 
+	public AfficheDate(int yy ,int mm,int  dd){
+		this.yy = yy;
+		this.mm = mm;
+		this.dd = dd;
+		this.init();
+	}
+	
+	public void init() {
+		GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(10, 10, 10, 10);
+		
+        constraints.gridx = 0;
+        constraints.gridy = 0;     
+        panAfficheDate.add(this.labelDate, constraints);
+        
+        JLabel date = new JLabel(Integer.toString(dd) +"/" +Integer.toString(mm)+ "/" +Integer.toString(yy));
+        
+        constraints.gridx = 1;
+        panAfficheDate.add(date, constraints);
+        
+        constraints.gridx = 0;
+        constraints.gridy = 2;     
+        panAfficheDate.add(this.labelChambre, constraints);
+        
+        
+        constraints.gridx = 1;
+        panAfficheDate.add(chambre, constraints);
+        
+        this.button1.addActionListener(this);
+        constraints.gridx = 1;
+        constraints.gridy = 3;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.EAST;
+        panAfficheDate.add(this.button1, constraints);
+        
+        add(this.panAfficheDate);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		
+		dispose();
+		PanneauPrincipal pann = new PanneauPrincipal();
+		pann.setVisible(true);
+				
+	
+	
+	}
+	
+	
+
+
+
+}

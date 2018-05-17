@@ -1,0 +1,200 @@
+package interface_Graphique;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+import ConnexionBDD.Connexion;
+import interface_Graphique.FactureSalle;
+import panneau_principal.PanneauPrincipal;
+
+public class FacturerSalle extends JFrame implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JLabel labelNumResa = new JLabel("numéro de réservation : ");
+	private JTextField textNumResa = new JTextField(20);
+	private JButton button1 = new JButton("calculer et afficher la facture");
+	private JButton button2 = new JButton("Menu");
+	private JPanel panFacture = new JPanel(new GridBagLayout());
+	
+	PreparedStatement statement = null;
+    ResultSet resultat = null;
+ 
+    protected int numSalle;
+    protected double prixSalle;
+    protected int idEntreprise;
+    protected double prixTot;
+  
+    
+    	public FacturerSalle(){
+    		this.init();
+    	}
+    	
+    	public void init(){
+        	
+    		GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(10, 10, 10, 10);
+        
+        constraints.gridx = 0;
+        constraints.gridy = 0;     
+        panFacture.add(this.labelNumResa, constraints);
+ 
+        constraints.gridx = 1;
+        panFacture.add(this.textNumResa, constraints);
+    	
+        this.button1.addActionListener(this);
+        constraints.gridx = 1;
+        constraints.gridy = 8;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.EAST;
+        panFacture.add(this.button1, constraints);
+    	
+        this.button2.addActionListener(this);
+        constraints.gridx = 0;
+        constraints.gridy = 8;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.WEST;
+        panFacture.add(this.button2, constraints);
+        
+        add(this.panFacture);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
+    	
+    	
+    }
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+    		if(e.getSource() == this.button1) {
+    			
+    			try {
+    				String numResa1 = this.textNumResa.getText();
+    				int numResa = Integer.parseInt(numResa1);
+    				
+    				
+    				
+    				PreparedStatement preparedState = Connexion.getInstance().prepareStatement("SELECT num_resa FROM resa_salle WHERE num_resa ='"+numResa+"'");
+    				resultat = preparedState.executeQuery();
+    				
+    				
+    				if(resultat.next()) {
+    					PreparedStatement preparedStat = Connexion.getInstance().prepareStatement("SELECT num_resa FROM facture_salle WHERE num_resa ='"+numResa+"'");
+        				ResultSet resultat2 = preparedStat.executeQuery();
+    					
+        				if(resultat2.next()) {
+        					JOptionPane.showMessageDialog(null,"facture déjà créée, affichage ","Success",JOptionPane.PLAIN_MESSAGE);
+        					dispose();
+        					
+        					PreparedStatement preparedState1 = Connexion.getInstance().prepareStatement("SELECT montant FROM facture_salle WHERE num_resa ='"+numResa+"'");
+        					ResultSet res = preparedState1.executeQuery();
+        					while(res.next()) {
+        						this.prixTot = res.getInt(1);
+        					}	
+        					PreparedStatement preparedState4 = Connexion.getInstance().prepareStatement("SELECT id_entreprise FROM facture_salle WHERE num_resa ='"+numResa+"'");
+        					ResultSet res3 = preparedState4.executeQuery();
+        					while(res3.next()) {
+        						this.idEntreprise = res3.getInt(1);
+        					}
+        					
+        					
+        					FactureSalle fenetre = new FactureSalle(numResa,prixTot,idEntreprise);
+        					fenetre.setVisible(true);
+        					
+        				}
+    					
+        				else {
+        					PreparedStatement preparedState1 = Connexion.getInstance().prepareStatement("SELECT num_salle FROM resa_salle WHERE num_resa ='"+numResa+"'");
+        					ResultSet res = preparedState1.executeQuery();
+        					while(res.next()) {
+        						this.numSalle = res.getInt(1);
+    
+        					}
+        					PreparedStatement preparedState2 = Connexion.getInstance().prepareStatement("SELECT prix FROM salle WHERE numero ='"+numSalle+"'");
+        					ResultSet res1 = preparedState2.executeQuery();
+        					while(res1.next()) {
+        						this.prixSalle = res1.getInt(1); 
+        					}
+        				
+        				
+        					PreparedStatement preparedState4 = Connexion.getInstance().prepareStatement("SELECT id_entreprise FROM resa_salle WHERE num_resa ='"+numResa+"'");
+        					ResultSet res3 = preparedState4.executeQuery();
+        					while(res3.next()) {
+        						this.idEntreprise = res3.getInt(1);
+        					}
+        				
+      
+        				
+        				
+        				
+        					PreparedStatement preparedSta = Connexion.getInstance().prepareStatement("INSERT INTO facture_salle(num_resa,montant,id_entreprise) VALUES (?,?,?)");
+        					preparedSta.setInt(1, numResa); 
+        					preparedSta.setDouble(2, prixSalle); 
+        					preparedSta.setInt(3, idEntreprise); 
+        				
+    	
+        					preparedSta.executeUpdate();
+        					JOptionPane.showMessageDialog(null,"facture créée ","Success",JOptionPane.PLAIN_MESSAGE);
+        					dispose();
+        					FactureSalle fenetre = new FactureSalle(numResa,prixSalle,idEntreprise);
+        					fenetre.setVisible(true);
+        				}
+        				
+        				
+    				}
+    				
+    				else {
+    					JOptionPane.showMessageDialog(null,"Mauvais numéro de réservation ","Error",1);
+    				}
+    				
+    			}
+    			catch (Exception e3) {
+    				e3.printStackTrace();
+    			}
+    			
+    		}
+    		
+    		if(e.getSource() == button2) {
+    			dispose();
+    			PanneauPrincipal pann = new PanneauPrincipal();
+    			pann.setVisible(true);
+    			
+    		}
+    		
+    		
+    	}
+    	
+    	public static void main(String[] args) {
+            
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+             
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new FacturerSalle().setVisible(true);
+                }
+            });
+    	
+    	}
+
+}
