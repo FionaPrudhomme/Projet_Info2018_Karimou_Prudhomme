@@ -1,0 +1,10 @@
+dist: xenial
+language: java
+addons:
+  apt:
+    packages:
+      - ant
+jdk:
+  - oraclejdk8
+  - oraclejdk9
+  - openjdk8
