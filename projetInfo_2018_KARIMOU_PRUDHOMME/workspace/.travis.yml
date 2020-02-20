@@ -1,4 +1,5 @@
 dist: xenial
+script: ./build.sh
 language: java
 addons:
   apt:
